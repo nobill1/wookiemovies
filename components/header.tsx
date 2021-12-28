@@ -1,19 +1,25 @@
 import Link from 'next/link'
-import React, { useCallback, useContext, useMemo } from 'react'
+import React, { MutableRefObject, useCallback, useContext, useMemo, useRef } from 'react'
 import { SearchContext } from './layout';
 import { searchApi } from '../services/api';
 
 
 const Header = (): JSX.Element => {
 
-    const { search, setSearch } = useContext(SearchContext);
+    const { setSearch, setResults, results, setLoading } = useContext(SearchContext);
 
-    const onChangeSearch = useCallback(
-        (e: React.ChangeEvent<HTMLInputElement>) => {
-            const searchFromInput = e.target.value;
-            setSearch(searchFromInput)                
-        }, [search, setSearch]
-    )
+    const inputRef = useRef<HTMLInputElement>(null);
+
+    async function handleSubmit() {        
+        setLoading(true)
+        setSearch(String(inputRef.current?.value))
+        await searchApi(String(inputRef.current?.value)).then(res => {
+            setResults(res.data.movies)
+            console.log(results);
+
+        }).then(error => console.log(error))        
+        setLoading(false)
+    }
 
     return (
         <div className="h-20 shadow-lg w-full fixed z-10 px-4 border-black border-b-2 bg-[#acacac]">
@@ -24,12 +30,13 @@ const Header = (): JSX.Element => {
                     </a>
                 </Link>
                 <label htmlFor="search" className="flex items-center gap-1">
-                    <svg className="h-8 msm:h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26.84 26.74"><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><path d="M17.28,0A9.57,9.57,0,0,0,7.72,9.56a9.43,9.43,0,0,0,1.79,5.55L0,24.62l2.12,2.12,9.49-9.49A9.56,9.56,0,1,0,17.28,0Zm0,16.12a6.56,6.56,0,1,1,6.56-6.56A6.56,6.56,0,0,1,17.28,16.12Z" /></g></g></svg>
-                    <input value={search} onChange={onChangeSearch} type="search" name="search" id="search" className="px-4 py-2 msm:py-1 msm:px-2 text-sm sm:text-lg msm:w-36 italic font-bold border-2 border-black bg-[#acacac] focus:border-gray-300 focus:outline-none" />
+                    <input ref={inputRef} type="search" name="search" id="search" className="px-4 py-2 msm:py-1 msm:px-2 text-sm sm:text-lg msm:w-36 italic font-bold border-2 border-black bg-[#acacac] focus:border-gray-300 focus:outline-none" />
+                    <button className="rounded-full p-2 bg-white hover:bg-yellow-300" onClick={handleSubmit}>
+                        <svg className="h-8 msm:h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26.84 26.74"><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><path d="M17.28,0A9.57,9.57,0,0,0,7.72,9.56a9.43,9.43,0,0,0,1.79,5.55L0,24.62l2.12,2.12,9.49-9.49A9.56,9.56,0,1,0,17.28,0Zm0,16.12a6.56,6.56,0,1,1,6.56-6.56A6.56,6.56,0,0,1,17.28,16.12Z" /></g></g></svg>
+                    </button>
                 </label>
             </div>
         </div>
-
     )
 
 }

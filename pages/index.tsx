@@ -47,7 +47,7 @@ const Home: NextPage = () => {
 
           return <Category categoryMovies={categoryMovies} key={e} name={e} />
         })}
-      </div> : <SearchResult />}
+      </div> : <Suspense fallback={Loader}><SearchResult /></Suspense>}
     </Suspense>
   )
 }
