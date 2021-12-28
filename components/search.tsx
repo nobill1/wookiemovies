@@ -31,7 +31,7 @@ const SearchResult = (): JSX.Element => {
 
                     <div className="grid grid-flow-row grid-cols-2 md:grid-cols-4 sm:grid-cols-3 max-w-screen-xl mx-auto">
 
-                        {results.map((movie, index) => {
+                        {results.map((movie: any, index) => {
                             return <MovieCard movie={movie} key={index} />
                         })}
 
