@@ -3,7 +3,7 @@ import { Suspense, useContext, useEffect, useState } from 'react'
 import Category from '../components/category'
 import { SearchContext } from '../components/layout'
 import Loader from '../components/loader'
-import SearchResult from '../components/search'
+import SearchResult from './search'
 import { moviesApi } from '../services/api'
 import styles from '../styles/Home.module.css'
 import IMovie from '../types/IMovie'
@@ -15,7 +15,7 @@ const Home: NextPage = () => {
   const [categories, setCategories] = useState<string[]>([]);
   const { search } = useContext(SearchContext);
 
-  useEffect(() => {    
+  useEffect(() => {
     moviesApi.then((res) => {
       const movies = res.data.movies;
       setMovies(movies)
@@ -40,14 +40,13 @@ const Home: NextPage = () => {
 
   return (
     <Suspense fallback={Loader}>
-      {search.length < 1 ? 
       <div className="customHeight pt-20 container mx-auto px-4">
         {categories.map(e => {
           let categoryMovies = categoryFilter(e);
 
           return <Category categoryMovies={categoryMovies} key={e} name={e} />
         })}
-      </div> : <Suspense fallback={Loader}><SearchResult /></Suspense>}
+      </div>
     </Suspense>
   )
 }
