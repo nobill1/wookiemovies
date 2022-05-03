@@ -32,7 +32,7 @@ export default function MovieCard(props: Props) {
             </div>
             <div className="flex justify-between items-center mt-auto">
                 <p className="text-sm bg-yellow-300">Rating: {movie.imdb_rating}</p>
-                <p className="text-[12px] bg-black text-white rounded-full p-1">{movie.classification}</p>
+                <p className="flex items-center justify-center text-[12px] h-8 w-8 text-center bg-black text-white rounded-full p-1">{movie.classification}</p>
             </div>
         </div>
 

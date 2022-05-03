@@ -15,7 +15,7 @@ export default function Category(props: Props): JSX.Element {
         <div className="flex flex-col gap-y-7 pt-10 pb-28">
             <div className="flex justify-between items-center">
                 <h2 className="text-xl md:text-2xl xl:text-3xl font-bold">{name}</h2>
-                <Link href="/movies"><a className="bg-black text-white rounded-2xl p-1">See all</a></Link>
+                <Link href="/movies"><a className="bg-black text-white rounded-2xl px-3 py-1">See all</a></Link>
             </div>
 
             <div className="grid grid-flow-row grid-cols-2 md:grid-cols-4 sm:grid-cols-3 max-w-screen-xl mx-auto">
